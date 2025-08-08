@@ -1,16 +1,19 @@
-# Use an official GCC image as a base
-FROM gcc:latest
+FROM node:18-alpine
 
-# Set the working directory in the container
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy only the necessary files first (e.g., headers and source files)
-COPY include /app/include
-COPY src /app/src
-COPY main.cpp /app
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Compile the C++ source files
-RUN g++ -o file_system_simulator main.cpp src/models/*.cpp src/services/*.cpp src/storage/*.cpp -I include
+# Install dependencies
+RUN npm install
 
-# Set the command to run the binary
-CMD ["./file_system_simulator"]
+# Copy app source code
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start command
+CMD ["npm", "start"]
