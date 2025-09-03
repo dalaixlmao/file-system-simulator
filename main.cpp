@@ -18,6 +18,8 @@ int main()
     cout << "     write <File Name> <Content>" << endl;
     cout << "     rm <File Name>" << endl;
     cout << "     tree" << endl;
+    cout << "     history [number]" << endl;
+    cout << "     history clear" << endl;
     while (true)
     {
         string currentPath = fileSystem->currentPath();
@@ -70,6 +72,34 @@ int main()
         else if (command == "tree")
         {
             fileSystem->showTree(fileSystem->getCurrentFolder());
+        }
+        else if (command == "history")
+        {
+            string arg;
+            if (cin.peek() != '\n')
+            {
+                cin >> arg;
+                if (arg == "clear")
+                {
+                    fileSystem->clearHistory();
+                }
+                else
+                {
+                    try
+                    {
+                        int count = stoi(arg);
+                        fileSystem->showHistory(count);
+                    }
+                    catch (...)
+                    {
+                        cout << "Invalid number format. Usage: history [number] or history clear" << endl;
+                    }
+                }
+            }
+            else
+            {
+                fileSystem->showHistory();
+            }
         }
         else
         {

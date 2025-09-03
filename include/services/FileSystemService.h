@@ -9,6 +9,7 @@
 #include <iostream>
 #include "./FileService.h"
 #include "./FolderService.h"
+#include "./HistoryService.h"
 #include "../storage/Storage.h"
 using namespace std;
 
@@ -18,6 +19,7 @@ private:
     Storage *store;
     FileService *fileService;
     FolderService *folderService;
+    HistoryService *historyService;
 
 public:
     void createFile(string folderId, string fileName);
@@ -32,6 +34,13 @@ public:
     void getIntoFolder(string folderName);
     bool isFolderAvailable(string name);
     string currentPath();
+    
+    // History operations
+    void showHistory() const;
+    void showHistory(int count) const;
+    void clearHistory();
+    int getHistoryCount() const;
+    
     FileSystemService();
     ~FileSystemService() = default;
 };
