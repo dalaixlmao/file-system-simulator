@@ -8,6 +8,7 @@ WORKDIR /app
 COPY include /app/include
 COPY src /app/src
 COPY main.cpp /app
+
 # Compile the C++ source files
 RUN g++ -o file_system_simulator main.cpp src/models/*.cpp src/services/*.cpp src/storage/*.cpp -I include
 
