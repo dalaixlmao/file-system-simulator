@@ -5,6 +5,7 @@
 #include "../../include/services/FileService.h"
 #include "../../include/services/FolderService.h"
 #include "../../include/services/HistoryService.h"
+#include "../../include/services/GrepService.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -90,9 +91,56 @@ int FileSystemService::getHistoryCount() const
     return historyService->getHistoryCount();
 }
 
+// Grep operations
+void FileSystemService::grepPattern(const string& pattern)
+{
+    grepService->grep(pattern);
+    historyService->addEntry("grep " + pattern, "GREP", pattern, currentPath());
+}
+
+void FileSystemService::grepInFile(const string& pattern, const string& fileName)
+{
+    grepService->grepInFile(pattern, fileName);
+    historyService->addEntry("grep " + pattern + " " + fileName, "GREP_FILE", fileName, currentPath());
+}
+
+void FileSystemService::grepRecursive(const string& pattern)
+{
+    GrepOptions options;
+    options.recursive = true;
+    grepService->grep(pattern, options);
+    historyService->addEntry("grep -r " + pattern, "GREP_RECURSIVE", pattern, currentPath());
+}
+
+void FileSystemService::grepWithOptions(const string& pattern, const string& options)
+{
+    GrepOptions grepOpts;
+    
+    // Parse options
+    for (char c : options) {
+        switch (c) {
+            case 'i': grepOpts.caseInsensitive = true; break;
+            case 'r': grepOpts.recursive = true; break;
+            case 'c': grepOpts.countOnly = true; break;
+            case 'v': grepOpts.invertMatch = true; break;
+            case 'n': grepOpts.showLineNumbers = true; break;
+        }
+    }
+    
+    grepService->grep(pattern, grepOpts);
+    historyService->addEntry("grep -" + options + " " + pattern, "GREP_OPTIONS", pattern, currentPath());
+}
+
+void FileSystemService::showGrepHelp()
+{
+    grepService->showGrepHelp();
+    historyService->addEntry("grep --help", "GREP_HELP", "", currentPath());
+}
+
 FileSystemService::FileSystemService()
 {
     folderService = new FolderService();
     fileService = new FileService();
     historyService = new HistoryService();
+    grepService = new GrepService();
 }

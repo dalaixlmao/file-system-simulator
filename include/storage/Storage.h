@@ -45,6 +45,14 @@ public:
     void showFolderTree();
     void showDFS(string folderId, string symbols);
     string getCurrentFolderId();
+    
+    // Grep support methods
+    vector<string> getFileIdsInFolder(string folderId);
+    vector<string> getFolderIdsInFolder(string folderId);
+    string getFileIdByName(string fileName, string folderId);
+    map<string, File*> getAllFiles();
+    map<string, Folder*> getAllFolders();
+    
     ~Storage() = default;
 };
 

@@ -22,6 +22,7 @@ string FileSystem::getCurrentFolder()
 {
     if (!path.empty())
         return path.top();
+    return ""; // Return empty string if path is empty
 }
 
 bool FileSystem::checkEmpty() { return path.empty(); }

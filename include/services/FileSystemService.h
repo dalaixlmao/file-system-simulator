@@ -10,6 +10,7 @@
 #include "./FileService.h"
 #include "./FolderService.h"
 #include "./HistoryService.h"
+#include "./GrepService.h"
 #include "../storage/Storage.h"
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
     FileService *fileService;
     FolderService *folderService;
     HistoryService *historyService;
+    GrepService *grepService;
 
 public:
     void createFile(string folderId, string fileName);
@@ -40,6 +42,13 @@ public:
     void showHistory(int count) const;
     void clearHistory();
     int getHistoryCount() const;
+    
+    // Grep operations
+    void grepPattern(const string& pattern);
+    void grepInFile(const string& pattern, const string& fileName);
+    void grepRecursive(const string& pattern);
+    void grepWithOptions(const string& pattern, const string& options);
+    void showGrepHelp();
     
     FileSystemService();
     ~FileSystemService() = default;

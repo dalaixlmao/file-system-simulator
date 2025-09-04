@@ -23,7 +23,7 @@ File::File(string id, string fileName, string folderId) : id(id), folderId(folde
     extension = ex;
 }
 
-void File::setContent(string content) { content = content; }
+void File::setContent(string content) { this->content = content; }
 
 string File::getContent() { return content; }
 

@@ -20,6 +20,9 @@ int main()
     cout << "     tree" << endl;
     cout << "     history [number]" << endl;
     cout << "     history clear" << endl;
+    cout << "     grep <pattern> [filename]" << endl;
+    cout << "     grep -[options] <pattern>" << endl;
+    cout << "     grep --help" << endl;
     while (true)
     {
         string currentPath = fileSystem->currentPath();
@@ -99,6 +102,45 @@ int main()
             else
             {
                 fileSystem->showHistory();
+            }
+        }
+        else if (command == "grep")
+        {
+            string arg;
+            if (cin.peek() != '\n')
+            {
+                cin >> arg;
+                if (arg == "--help")
+                {
+                    fileSystem->showGrepHelp();
+                }
+                else if (arg.length() > 1 && arg[0] == '-' && arg[1] != '-')
+                {
+                    // Options provided (e.g., -ir, -c)
+                    string options = arg.substr(1);
+                    string pattern;
+                    cin >> pattern;
+                    fileSystem->grepWithOptions(pattern, options);
+                }
+                else
+                {
+                    // Pattern provided, check if filename follows
+                    string pattern = arg;
+                    string fileName;
+                    if (cin.peek() != '\n')
+                    {
+                        cin >> fileName;
+                        fileSystem->grepInFile(pattern, fileName);
+                    }
+                    else
+                    {
+                        fileSystem->grepPattern(pattern);
+                    }
+                }
+            }
+            else
+            {
+                cout << "Usage: grep <pattern> [filename] or grep --help" << endl;
             }
         }
         else

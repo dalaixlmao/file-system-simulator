@@ -268,3 +268,61 @@ bool Storage::validateFile(string fileName)
     }
     return false;
 }
+
+// Grep support methods
+vector<string> Storage::getFileIdsInFolder(string folderId)
+{
+    vector<string> fileIds;
+    if (tree.find(folderId) != tree.end())
+    {
+        for (auto i : tree[folderId])
+        {
+            if (i.first[0] == 'f')
+            {
+                fileIds.push_back(i.first);
+            }
+        }
+    }
+    return fileIds;
+}
+
+vector<string> Storage::getFolderIdsInFolder(string folderId)
+{
+    vector<string> folderIds;
+    if (tree.find(folderId) != tree.end())
+    {
+        for (auto i : tree[folderId])
+        {
+            if (i.first[0] == 'F')
+            {
+                folderIds.push_back(i.first);
+            }
+        }
+    }
+    return folderIds;
+}
+
+string Storage::getFileIdByName(string fileName, string folderId)
+{
+    if (tree.find(folderId) != tree.end())
+    {
+        for (auto i : tree[folderId])
+        {
+            if (i.first[0] == 'f' && files[i.first] && files[i.first]->getFileName() == fileName)
+            {
+                return i.first;
+            }
+        }
+    }
+    return "";
+}
+
+map<string, File*> Storage::getAllFiles()
+{
+    return files;
+}
+
+map<string, Folder*> Storage::getAllFolders()
+{
+    return folders;
+}
