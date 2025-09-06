@@ -13,6 +13,7 @@ int main()
     cout << "     mkdir <Folder Name>" << endl;
     cout << "     rmdir <Folder Name>" << endl;
     cout << "     cd <Change Current Directory>" << endl;
+    cout << "     pwd" << endl;
     cout << "     ls" << endl;
     cout << "     touch <File Name>" << endl;
     cout << "     write <File Name> <Content>" << endl;
@@ -47,6 +48,10 @@ int main()
             string folderName;
             cin >> folderName;
             fileSystem->getIntoFolder(folderName);
+        }
+        else if (command == "pwd")
+        {
+            cout << fileSystem->currentPath() << endl;
         }
         else if (command == "ls")
         {
